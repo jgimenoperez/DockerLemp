@@ -60,7 +60,8 @@ nginx:
     volumes:
         - ./nginx/default:/etc/nginx/sites-available/default
         - ./nginx/default:/etc/nginx/sites-enabled/default
-
+        - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
+        # - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
         # - ./logs/nginx-error.log:/var/log/nginx/error.log
         # - ./logs/nginx-access.log:/var/log/nginx/access.log
 
