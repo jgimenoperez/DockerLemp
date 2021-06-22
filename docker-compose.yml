@@ -1,3 +1,36 @@
+# docker run -i -t -p 80:80 ubuntu:latest
+# apt-get install nginx
+# nginx -t //comprueba que la configuracion de ngixn sea correcta
+# apt-get install php-fpm //lo que convierte el php a html
+# Habilitar el php fichero de conf  
+# nano /etc/nginx/sites-enabled/default
+# nano /etc/nginx/sites-available/default
+# Si da errr de 502 bad gateway puede ser que la version php no conincida la de la conf de nginx con el php instalado
+# ver con tail -f /var/log/nginx/error.log 
+# ruta donde poner el html / php por defecto, se puede cambair en el fichero de conf
+# /var/www/html#   
+# cambiar pass en mysql
+# mysqladmin --user=root password "root"
+
+#info sacada de 
+# https://techexpert.tips/es/nginx-es/instalacion-de-nginx-y-php-en-ubuntu-linux/
+
+# INSTALAR MYSQL EN UBUNTU
+# apt-get install mysql-server php-mysql
+# service mysql start
+
+# ubuntulemp:    
+#     image: puzolmongol/ubuntu_lemp:V1
+#     ports: 
+#         - "80:80"
+#         - "3306:3306" 
+#     restart: always
+
+# https://techexpert.tips/es/nginx-es/instalacion-de-nginx-y-php-en-ubuntu-linux/
+# http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/
+# https://tutorialphp.net/iniciacion-a-php-7/nuestro-primer-php-hola-mundo-y-algo-mas/
+# https://blog.pleets.org/article/error-cant-connect-to-local-mysql
+
 nginx:
     image: tutum/nginx
     ports:
@@ -7,7 +40,7 @@ nginx:
     volumes:
         - ./nginx/default:/etc/nginx/sites-available/default
         - ./nginx/default:/etc/nginx/sites-enabled/default
-        - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
+
         # - ./logs/nginx-error.log:/var/log/nginx/error.log
         # - ./logs/nginx-access.log:/var/log/nginx/access.log
 
