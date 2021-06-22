@@ -1,3 +1,6 @@
+# nginx -t //comprueba que la configuracion de ngixn sea correcta
+# apt-get install php-fpm //lo que convierte el php a html
+# Habilitar el php fichero de conf  
 # docker run -i -t -p 80:80 ubuntu:latest
 # apt-get install nginx
 # nginx -t //comprueba que la configuracion de ngixn sea correcta
@@ -10,7 +13,7 @@
 # ruta donde poner el html / php por defecto, se puede cambair en el fichero de conf
 # /var/www/html#   
 # cambiar pass en mysql
-# mysqladmin --user=root password "root"
+
 
 #info sacada de 
 # https://techexpert.tips/es/nginx-es/instalacion-de-nginx-y-php-en-ubuntu-linux/
@@ -30,6 +33,23 @@
 # http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/
 # https://tutorialphp.net/iniciacion-a-php-7/nuestro-primer-php-hola-mundo-y-algo-mas/
 # https://blog.pleets.org/article/error-cant-connect-to-local-mysql
+
+# nginx
+# service php7.4-fpm restart
+# service mysql start
+# CREATE USER 'chan'@'localhost' IDENTIFIED BY 'chan';
+# GRANT ALL PRIVILEGES ON * . * TO 'chan'@'localhost';
+
+# ubuntulemp:
+#     image: ubuntu_lemp:v1
+#     container_name: ubuntulemp
+#     ports:
+#         - "80:80"
+#         - "3306:3306" 
+#     stdin_open: true
+#     tty: true    
+#     # volumes:
+#     #   - ./mysql:/var/lib/mysql 
 
 nginx:
     image: tutum/nginx
