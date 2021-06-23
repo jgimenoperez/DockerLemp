@@ -82,7 +82,7 @@ mysql:
   ports:
     - "3306:3306" 
   volumes:
-    - ./mysql:/var/lib/mysql  
+    - C:\DEVLAB\BBDD_mysql\mysql:/var/lib/mysql  
 # phpmyadmin:
 #   image: phpmyadmin/phpmyadmin
 #   restart: always
