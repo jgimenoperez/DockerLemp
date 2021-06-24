@@ -54,7 +54,7 @@
 nginx:
     image: tutum/nginx
     ports:
-        - "80:80"
+        - "8080:80"
     links:
         - phpfpm
     volumes:
@@ -66,9 +66,11 @@ nginx:
         # - ./logs/nginx-access.log:/var/log/nginx/access.log
 
 phpfpm:
-    image: php:fpm
+    image: stonewaves/php-fpm-mysql:latest
     ports:
         - "9000:9000"
+    links:
+        - mysql    
     volumes:
         - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
         
