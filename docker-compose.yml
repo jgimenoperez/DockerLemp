@@ -18,7 +18,9 @@ services:
             # - ./logs/error.log:/var/log/nginx/error.log
             # - ./logs/access.log:var/log/nginx/access.log
         networks:
-            - network_lemp        
+            network_lemp:         
+                aliases:
+                    - nginx_lemp    
 
     # php-fpm //Convierte el php a html      
     # He tenido problemas con otras imagenes por que no tienen habilidado el sqlcli que es el servicio para php que conecta con la bd
