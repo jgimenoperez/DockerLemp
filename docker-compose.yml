@@ -1,98 +1,78 @@
-# nginx -t //comprueba que la configuracion de ngixn sea correcta
-# apt-get install php-fpm //lo que convierte el php a html
-# Habilitar el php fichero de conf  
-# docker run -i -t -p 80:80 ubuntu:latest
-# apt-get install nginx
-# nginx -t //comprueba que la configuracion de ngixn sea correcta
-# apt-get install php-fpm //lo que convierte el php a html
-# Habilitar el php fichero de conf  
-# nano /etc/nginx/sites-enabled/default
-# nano /etc/nginx/sites-available/default
-# Si da errr de 502 bad gateway puede ser que la version php no conincida la de la conf de nginx con el php instalado
-# ver con tail -f /var/log/nginx/error.log 
-# ruta donde poner el html / php por defecto, se puede cambair en el fichero de conf
-# /var/www/html#   
-# cambiar pass en mysql
+version: "3.9"
+services:    
+    # Servidor web
+    # nginx -t //comprueba que la configuracion de ngixn sea correcta
+    # tail -f /var/log/nginx/error.log // ver errores
+    # - ./nginx/default:/etc/nginx/sites-available/default // Este es el fichero de config para conectar con phpfm
+    nginx:
+        image: tutum/nginx
+        container_name: nginx_lemp
+        ports:
+            - "8080:80"
+        links:
+            - phpfpm
+        volumes:
+            - ./nginx/default:/etc/nginx/sites-available/default
+            - ./nginx/default:/etc/nginx/sites-enabled/default
+            - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
+            # - ./logs/error.log:/var/log/nginx/error.log
+            # - ./logs/access.log:var/log/nginx/access.log
+        networks:
+            - network_lemp        
 
+    # php-fpm //Convierte el php a html      
+    # He tenido problemas con otras imagenes por que no tienen habilidado el sqlcli que es el servicio para php que conecta con la bd
+    # Usar stonewaves/php-fpm-mysql:latest
+    phpfpm:
+        image: stonewaves/php-fpm-mysql:latest
+        container_name: phpfpm_lemp
+        ports:
+            - "9000:9000"
+        volumes:
+            # - ./public:/usr/share/nginx/html     
+            - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html   
+        networks:
+            - network_lemp  
 
-#info sacada de 
-# https://techexpert.tips/es/nginx-es/instalacion-de-nginx-y-php-en-ubuntu-linux/
+    # He tenido problemas de autenticacion de usuario desde php con mysql.
+    # Con mariadb todo ok        
+    # uso alias maria_lemp para conectar por nombre y no por ip 
+    mysql:
+        image: mariadb
+        container_name: maria_lemp
+        ports:
+            - "3306:3306" 
+        environment:
+            MYSQL_ROOT_PASSWORD: root   
+            MYSQL_USER: chan
+            MYSQL_PASSWORD: 961421180   
+            MYSQL_DATABASE: appsalon
+        volumes:
+            - C:\DEVLAB\BBDD\mariadb:/var/lib/mysql              
+        networks:
+            network_lemp:         
+                aliases:
+                    - maria_lemp
 
-# INSTALAR MYSQL EN UBUNTU
-# apt-get install mysql-server php-mysql
-# service mysql start
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin_lemp
+        restart: always
+        links:
+            - mysql
+        ports:
+            - 8183:80
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: root
+            PMA_ARBITRARY: 1   
+        networks:
+            - network_lemp    
 
-# ubuntulemp:    
-#     image: puzolmongol/ubuntu_lemp:V1
-#     ports: 
-#         - "80:80"
-#         - "3306:3306" 
-#     restart: always
+networks:
+    network_lemp:
+    
 
-# https://techexpert.tips/es/nginx-es/instalacion-de-nginx-y-php-en-ubuntu-linux/
-# http://geekyplatypus.com/dockerise-your-php-application-with-nginx-and-php7-fpm/
-# https://tutorialphp.net/iniciacion-a-php-7/nuestro-primer-php-hola-mundo-y-algo-mas/
-# https://blog.pleets.org/article/error-cant-connect-to-local-mysql
-
-# nginx
-# service php7.4-fpm restart
-# service mysql start
-# CREATE USER 'chan'@'localhost' IDENTIFIED BY 'chan';
-# GRANT ALL PRIVILEGES ON * . * TO 'chan'@'localhost';
-
-# ubuntulemp:
-#     image: ubuntu_lemp:v1
-#     container_name: ubuntulemp
-#     ports:
-#         - "80:80"
-#         - "3306:3306" 
-#     stdin_open: true
-#     tty: true    
-#     # volumes:
-#     #   - ./mysql:/var/lib/mysql 
-
-nginx:
-    image: tutum/nginx
-    ports:
-        - "8080:80"
-    links:
-        - phpfpm
-    volumes:
-        - ./nginx/default:/etc/nginx/sites-available/default
-        - ./nginx/default:/etc/nginx/sites-enabled/default
-        - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
-        # - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
-        # - ./logs/nginx-error.log:/var/log/nginx/error.log
-        # - ./logs/nginx-access.log:/var/log/nginx/access.log
-
-phpfpm:
-    image: stonewaves/php-fpm-mysql:latest
-    ports:
-        - "9000:9000"
-    links:
-        - mysql    
-    volumes:
-        - C:\DEVLAB\CURSOS_UDEMY\CURSO_UDEMY_WEB:/usr/share/nginx/html
+# Copia seg bd        
+# mysqldump -u root -p appsalon > backup.sql
         
-mysql:
-  image: mysql:latest
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_DATABASE: appsalon
-    MYSQL_USER: chan
-    MYSQL_PASSWORD: 961421180     
-  ports:
-    - "3306:3306" 
-  volumes:
-    - C:\DEVLAB\BBDD_mysql\mysql:/var/lib/mysql  
-# phpmyadmin:
-#   image: phpmyadmin/phpmyadmin
-#   restart: always
-#   links:
-#     - mysql
-#   ports:
-#     - 8183:80
-#   environment:
-#     PMA_USER: root
-#     PMA_PASSWORD: admin
-#     PMA_ARBITRARY: 1
