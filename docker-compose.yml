@@ -41,6 +41,10 @@ services:
         # he añadido la carpeta /usr/local/etc/php/conf.d
         # Dentro he creado el fichero  docker-php-ext-mysqli.ini
         # con la info    extension=mysqli.so
+        # Otra solucion Es
+        # En ubuntu necesitamos descomentar esta línea en php.ini que se encuentra en /etc/php/7.0/Apache2/php.ini
+        # extensión = php_mysqli.so
+        # https://www.it-swarm-es.com/es/php/como-habilitar-la-extension-mysqli-en-php-7/824260566/
 
     # He tenido problemas de autenticacion de usuario desde php con mysql.
     # Con mariadb todo ok        
