@@ -37,6 +37,11 @@ services:
         networks:
             - network_lemp  
 
+        # Me ha ocurrido en el equiop de la ofi que el mysqli no fuciona por defecto
+        # he añadido la carpeta /usr/local/etc/php/conf.d
+        # Dentro he creado el fichero  docker-php-ext-mysqli.ini
+        # con la info    extension=mysqli.so
+
     # He tenido problemas de autenticacion de usuario desde php con mysql.
     # Con mariadb todo ok        
     # uso alias maria_lemp para conectar por nombre y no por ip 
