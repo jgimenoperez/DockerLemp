@@ -21,6 +21,10 @@ services:
             network_lemp:         
                 aliases:
                     - nginx_lemp    
+            # Para permiter acceso envio de ficheros de mas tamaño añadir la linea
+            # client_max_body_size 100M;
+            # en /etc/nginx/nginx.conf
+            # https://www.hostinger.es/tutoriales/solucionar-error-413-request-entity-too-large/
 
     # php-fpm //Convierte el php a html      
     # He tenido problemas con otras imagenes por que no tienen habilidado el sqlcli que es el servicio para php que conecta con la bd
