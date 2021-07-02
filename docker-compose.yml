@@ -73,13 +73,22 @@ services:
     # He tenido problemas de autenticacion de usuario desde php con mysql.
     # Con mariadb todo ok        
     # uso alias maria_lemp para conectar por nombre y no por ip 
+
+    #mosrtar modulos instalados
+    # php -m
+
+    #Habiliar modulos gd para tratamiento de imagenes
+    docker-php-ext-configure gd --with-freetype-dir=/usr/lib --with-png-dir=/usr/lib --with-jpeg-dir=/usr/lib && \
+docker-php-ext-install gd        
+
     mysql:
         image: mariadb
         container_name: maria_lemp
         ports:
             - "3306:3306" 
         environment:
-            MYSQL_ROOT_PASSWORD: root   
+            MYSQ+
+            L_ROOT_PASSWORD: root   
             MYSQL_USER: chan
             MYSQL_PASSWORD: 961421180   
             MYSQL_DATABASE: appsalon
