@@ -78,6 +78,7 @@ services:
     # php -m
 
     #Habiliar modulos gd para tratamiento de imagenes
+    # apt-get update && apt-get install -y         libfreetype6-dev         libjpeg62-turbo-dev         libpng-dev
     # docker-php-ext-configure gd --with-freetype-dir=/usr/lib --with-png-dir=/usr/lib --with-jpeg-dir=/usr/lib && \ docker-php-ext-install gd        
     # https://www.gitmemory.com/issue/docker-library/php/913/560148532        
 
