@@ -88,8 +88,7 @@ services:
         ports:
             - "3306:3306" 
         environment:
-            MYSQ+
-            L_ROOT_PASSWORD: root   
+            MYSQL_ROOT_PASSWORD: root   
             MYSQL_USER: chan
             MYSQL_PASSWORD: 961421180   
             MYSQL_DATABASE: appsalon
