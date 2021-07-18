@@ -30,7 +30,8 @@ services:
     # He tenido problemas con otras imagenes por que no tienen habilidado el sqlcli que es el servicio para php que conecta con la bd
     # Usar stonewaves/php-fpm-mysql:latest
     phpfpm:
-        image: stonewaves/php-fpm-mysql:latest
+        image: dockerlemp:latest
+        #image: stonewaves/php-fpm-mysql:latest
         container_name: phpfpm_lemp
         ports:
             - "9000:9000"
@@ -80,6 +81,16 @@ services:
     #Habiliar modulos gd para tratamiento de imagenes
     # docker-php-ext-configure gd --with-freetype-dir=/usr/lib --with-png-dir=/usr/lib --with-jpeg-dir=/usr/lib && \ docker-php-ext-install gd        
     # https://www.gitmemory.com/issue/docker-library/php/913/560148532        
+ 
+    #con php instalar extension gd
+#     FROM php:7.4-fpm
+# RUN apt-get update && apt-get install -y \
+#         libfreetype6-dev \
+#         libjpeg62-turbo-dev \
+#         libpng-dev \
+#     && docker-php-ext-configure gd --with-freetype --with-jpeg \
+#     && docker-php-ext-install -j$(nproc) gd
+
 
     mysql:
         image: mariadb
@@ -87,8 +98,7 @@ services:
         ports:
             - "3306:3306" 
         environment:
-            MYSQ+
-            L_ROOT_PASSWORD: root   
+            MYSQL_ROOT_PASSWORD: root   
             MYSQL_USER: chan
             MYSQL_PASSWORD: 961421180   
             MYSQL_DATABASE: appsalon
